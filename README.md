@@ -4,6 +4,8 @@ A modern **Stock Market Dashboard** built with **React + Vite + TailwindCSS** fo
 This project visualizes stock data interactively, allowing users to explore, filter, and export market insights easily.
 
 ---
+<img width="1563" height="831" alt="Screenshot 2025-11-11 at 13 30 17" src="https://github.com/user-attachments/assets/1d8aa87f-61ef-4198-979a-c7dc1f60ce27" />
+
 
 ## 🚀 Project Overview
 
