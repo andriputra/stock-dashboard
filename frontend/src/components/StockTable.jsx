@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from "react";
-import { FaCaretDown, FaCaretUp} from "react-icons/fa";
+import { FaCaretDown, FaCaretUp, FaTabletAlt} from "react-icons/fa";
+import { FiBarChart2, FiTable } from "react-icons/fi"; 
 
 export default function StockTable({ data = [] }) {
   const [sortColumn, setSortColumn] = useState("date");
   const [sortOrder, setSortOrder] = useState("asc");
 
+  // Fungsi untuk menangani perubahan sorting ketika header kolom diklik
   const handleSort = (col) => {
     if (col === sortColumn) setSortOrder((o) => (o === "asc" ? "desc" : "asc"));
     else {
@@ -13,6 +15,7 @@ export default function StockTable({ data = [] }) {
     }
   };
 
+  // useMemo untuk melakukan sorting data berdasarkan kolom dan urutan sorting saat ini
   const sorted = useMemo(() => {
     const copy = (data || []).slice();
   
@@ -20,6 +23,7 @@ export default function StockTable({ data = [] }) {
       let A = a[sortColumn];
       let B = b[sortColumn];
   
+      // Konversi tipe data untuk perbandingan yang tepat
       if (sortColumn === "date") {
         A = new Date(A);
         B = new Date(B);
@@ -36,8 +40,15 @@ export default function StockTable({ data = [] }) {
     return copy;
   }, [data, sortColumn, sortOrder]);
 
-  if (!data.length) return <p className="text-center text-gray-500">No data to display.</p>;
-
+  if (!data.length)
+    return (
+      <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl shadow-md border border-gray-200 mt-4 text-gray-400">
+        {/* Ikon kosong */}
+         <FiTable className="w-16 h-16 mb-2" />
+         <span className="text-lg font-normal">No data found for the selected filter</span>
+      </div>
+    );
+  // Daftar kolom yang akan ditampilkan pada tabel beserta labelnya
   const headers = [
     { key: "date", label: "Date" },
     { key: "ticker", label: "Ticker" },
@@ -56,7 +67,7 @@ export default function StockTable({ data = [] }) {
             {headers.map((h) => (
               <th
                 key={h.key}
-                className="p-2 text-left cursor-pointer select-none border"
+                className="py-2 px-4 text-left cursor-pointer select-none border"
                 onClick={() => handleSort(h.key)}
               >
                 <div className="flex justify-between items-center gap-1">
@@ -92,13 +103,13 @@ export default function StockTable({ data = [] }) {
                 i % 2 === 0 ? "bg-white" : "bg-gray-100"
               } hover:bg-blue-100 transition-colors duration-200`}
             >
-              <td className="p-2">{row.date}</td>
-              <td className="p-2 font-semibold">{row.ticker}</td>
-              <td className="p-2">{row.open.toLocaleString()}</td>
-              <td className="p-2">{row.high.toLocaleString()}</td>
-              <td className="p-2">{row.low.toLocaleString()}</td>
-              <td className="p-2">{row.close.toLocaleString()}</td>
-              <td className="p-2">{row.volume.toLocaleString()}</td>
+              <td className="px-4 py-2">{row.date}</td>
+              <td className="px-4 py-2 font-semibold">{row.ticker}</td>
+              <td className="px-4 py-2">{row.open.toLocaleString()}</td>
+              <td className="px-4 py-2">{row.high.toLocaleString()}</td>
+              <td className="px-4 py-2">{row.low.toLocaleString()}</td>
+              <td className="px-4 py-2">{row.close.toLocaleString()}</td>
+              <td className="px-4 py-2">{row.volume.toLocaleString()}</td>
             </tr>
           ))}
         </tbody>

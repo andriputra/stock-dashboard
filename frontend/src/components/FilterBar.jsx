@@ -7,7 +7,7 @@ export default function FilterBar({ tickers = [], filter, onChange, onApply, onR
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Tutup dropdown kalau klik di luar
+  // useEffect untuk menutup dropdown jika terjadi klik di luar area dropdown
   useEffect(() => {
     const handler = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -18,6 +18,7 @@ export default function FilterBar({ tickers = [], filter, onChange, onApply, onR
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // Fungsi untuk toggle pilihan ticker pada checkbox
   const toggleTicker = (ticker) => {
     let updated;
     if (tickersSelected.includes(ticker)) {
@@ -28,12 +29,13 @@ export default function FilterBar({ tickers = [], filter, onChange, onApply, onR
     onChange("tickersSelected", updated);
   };
 
+  // Struktur utama tampilan filter:
   return (
     <div className="bg-white shadow-lg p-5 rounded-xl mb-6 border border-gray-100">
       <h2 className="text-lg font-semibold mb-4 text-gray-800">Filter Data</h2>
 
-      <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-5">
-        <div className="col-span-2 relative" ref={dropdownRef}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="col-span-1 sm:col-span-2 relative" ref={dropdownRef}>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Select Ticker
           </label>
@@ -61,7 +63,7 @@ export default function FilterBar({ tickers = [], filter, onChange, onApply, onR
           </button>
 
           {open && (
-            <div className="absolute z-20 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto animate-fade-in">
+            <div className="absolute z-20 mt-2 w-full sm:w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto animate-fade-in">
               {tickers.length === 0 ? (
                 <p className="text-gray-400 text-sm p-3">No tickers available</p>
               ) : (
@@ -109,20 +111,20 @@ export default function FilterBar({ tickers = [], filter, onChange, onApply, onR
         </div>
       </div>
 
-      <div className="flex justify-between mt-5 flex-wrap gap-3">
+      <div className="flex flex-col md:flex-row justify-between mt-5 gap-3">
         <ExportPDFButton data={[]} filter={filter} />
-        <div className="flex gap-3">
+        <div className="flex flex-col md:flex-row gap-3">
           <button
             type="button"
             onClick={onReset}
-            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition-all"
+            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition-all w-full md:w-auto"
           >
             Reset
           </button>
           <button
             type="button"
             onClick={onApply}
-            className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow transition-all flex gap-2 items-center"
+            className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow transition-all flex gap-2 items-center justify-center w-full md:w-auto"
           >
             <FaFilter/> Apply Filter
           </button>

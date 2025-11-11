@@ -8,13 +8,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class CsvLoader {
-
-    // Load data dari msequity.csv
     public static Map<String, Map<String, String>> loadCompanyMeta(String resourcePath) {
         Map<String, Map<String, String>> meta = new HashMap<>();
         try (InputStream in = CsvLoader.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (in == null) {
-                System.out.println("❌ File not found: " + resourcePath);
+                System.out.println("File not found: " + resourcePath);
                 return meta;
             }
 
@@ -22,9 +20,11 @@ public class CsvLoader {
                 String[] line;
                 boolean skip = true;
                 while ((line = reader.readNext()) != null) {
+                    // Lewati header CSV
                     if (skip) { skip = false; continue; }
                     if (line.length < 5) continue;
 
+                    // Parsing ticker, sektor, dan subsektor dari baris CSV
                     String ticker = line[0].replace("\"", "").trim();
                     String sector = line[3].replace("\"", "").trim();
                     String subsector = line[4].replace("\"", "").trim();
@@ -35,19 +35,19 @@ public class CsvLoader {
                     meta.put(ticker, info);
                 }
             }
-            System.out.println("✅ Loaded " + meta.size() + " tickers from " + resourcePath);
+            System.out.println("Loaded " + meta.size() + " tickers from " + resourcePath);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return meta;
     }
 
-    // Load data harga saham dari trequity.csv
+    /* Membaca data harga saham dari file CSV.*/
     public static List<Stock> loadStockPrices(String resourcePath, Map<String, Map<String, String>> meta) {
         List<Stock> list = new ArrayList<>();
         try (InputStream in = CsvLoader.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (in == null) {
-                System.out.println("❌ File not found: " + resourcePath);
+                System.out.println("File not found: " + resourcePath);
                 return list;
             }
 
@@ -55,9 +55,11 @@ public class CsvLoader {
                 String[] line;
                 boolean skip = true;
                 while ((line = reader.readNext()) != null) {
+                    // Lewati header CSV
                     if (skip) { skip = false; continue; }
                     if (line.length < 11) continue;
 
+                    // Parsing data harga saham per baris CSV
                     Stock s = new Stock();
                     s.setTicker(line[1].replace("\"", "").trim());
                     s.setDate(LocalDate.parse(line[2].replace("\"", "").trim()));
@@ -67,6 +69,7 @@ public class CsvLoader {
                     s.setClose(Double.parseDouble(line[6]));
                     s.setVolume(Long.parseLong(line[9]));
 
+                    // Melengkapi sektor dan subsektor dari metadata jika ada
                     if (meta.containsKey(s.getTicker())) {
                         Map<String, String> info = meta.get(s.getTicker());
                         s.setSector(info.getOrDefault("sector", ""));
@@ -76,7 +79,7 @@ public class CsvLoader {
                     list.add(s);
                 }
             }
-            System.out.println("✅ Loaded " + list.size() + " records from " + resourcePath);
+            System.out.println("Loaded " + list.size() + " records from " + resourcePath);
         } catch (Exception e) {
             e.printStackTrace();
         }

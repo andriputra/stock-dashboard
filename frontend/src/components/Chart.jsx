@@ -10,7 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { FiBarChart2 } from "react-icons/fi"; // ikon chart kosong
+import { FiBarChart2 } from "react-icons/fi"; 
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -48,38 +48,41 @@ export default function Chart({ data = [] }) {
     chartData.datasets.some((ds) => ds.data.some((val) => val !== null));
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-start min-h-[300px]">
+    <div className="bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center min-h-[300px] w-full h-[300px] sm:h-[400px] md:h-[500px]">
       {hasData ? (
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "bottom",
-                labels: { usePointStyle: true },
+        <div className="w-full h-full">
+          <Line
+            data={chartData}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: "bottom",
+                  labels: { usePointStyle: true },
+                },
+                title: {
+                  display: true,
+                  text: "Stock Close Price per Day",
+                  font: { size: 16 },
+                },
+                tooltip: {
+                  mode: "index",
+                  intersect: false,
+                },
               },
-              title: {
-                display: true,
-                text: "Stock Close Price per Day",
-                font: { size: 16 },
+              interaction: { mode: "nearest", intersect: false },
+              scales: {
+                x: { title: { display: true, text: "Date" } },
+                y: { title: { display: true, text: "Close Price" } },
               },
-              tooltip: {
-                mode: "index",
-                intersect: false,
-              },
-            },
-            interaction: { mode: "nearest", intersect: false },
-            scales: {
-              x: { title: { display: true, text: "Date" } },
-              y: { title: { display: true, text: "Close Price" } },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
       ) : (
         <div className="flex flex-col items-center justify-center text-gray-400">
           <FiBarChart2 className="w-16 h-16 mb-2" />
-          <span className="text-lg font-medium">No data available</span>
+          <span className="text-lg font-normal">No data found for the selected filter</span>
         </div>
       )}
     </div>

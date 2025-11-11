@@ -3,7 +3,6 @@ import { getTickers, getAllStocks, getFilteredStocks } from "../services/api.js"
 import Chart from "../components/Chart.jsx";
 import StockTable from "../components/StockTable.jsx";
 import FilterBar from "../components/FilterBar.jsx";
-import ExportPDFButton from "../components/ExportPDFButton.jsx";
 
 export default function Dashboard() {
   const [tickers, setTickers] = useState([]);
@@ -73,12 +72,6 @@ export default function Dashboard() {
           <Chart data={filtered} />
           <StockTable data={filtered} />
         </div>
-
-        {!filtered.length && !loading && (
-          <p className="text-gray-500 mt-4 text-center">
-            No data found for the selected filter.
-          </p>
-        )}
       </div>
     </div>
   );

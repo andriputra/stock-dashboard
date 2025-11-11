@@ -2,17 +2,30 @@ package com.stockdashboard.model;
 
 import java.time.LocalDate;
 
+/**
+ * Model data untuk menyimpan informasi saham.
+ */
 public class Stock {
+    // Tanggal data saham
     private LocalDate date;
+    // Kode ticker saham
     private String ticker;
+    // Harga pembukaan saham pada tanggal tersebut
     private double open;
+    // Harga tertinggi saham pada tanggal tersebut
     private double high;
+    // Harga terendah saham pada tanggal tersebut
     private double low;
+    // Harga penutupan saham pada tanggal tersebut
     private double close;
+    // Volume perdagangan saham pada tanggal tersebut
     private long volume;
+    // Sektor industri saham
     private String sector;
+    // Sub-sektor industri saham
     private String subsector;
 
+    // Getter dan setter untuk setiap atribut di atas
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
 
