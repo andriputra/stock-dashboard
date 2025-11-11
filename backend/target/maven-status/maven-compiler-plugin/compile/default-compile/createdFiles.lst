@@ -1,0 +1,5 @@
+com/stockdashboard/controller/StockController.class
+com/stockdashboard/service/StockService.class
+com/stockdashboard/model/Stock.class
+com/stockdashboard/util/CsvLoader.class
+com/stockdashboard/StockDashboardApplication.class
